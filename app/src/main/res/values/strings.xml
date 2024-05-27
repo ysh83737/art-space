@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">Art Space</string>
+    <string-array name="img01">
+        <item>True talent is resolute aspiration.</item>
+        <item>Napoleon</item>
+        <item>1808</item>
+    </string-array>
+    <string-array name="img02">
+        <item>Time is speed, time means strength.</item>
+        <item>Guo Moruo</item>
+        <item>1960</item>
+    </string-array>
+    <string-array name="img03">
+        <item>Thought correctly, life unbeaten.</item>
+        <item>Malten</item>
+        <item>1908</item>
+    </string-array>
+    <string-array name="img04">
+        <item>Natural selection, survival of the fittest.</item>
+        <item>Huxley</item>
+        <item>1789</item>
+    </string-array>
+    <string-array name="img05">
+        <item>A friend is the sunshine of life</item>
+        <item>Ibsen</item>
+        <item>2010</item>
+    </string-array>
 </resources>

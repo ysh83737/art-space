@@ -79,29 +79,18 @@ fun ArtSpaceLayout() {
             .safeDrawingPadding()
             .verticalScroll(rememberScrollState())
     ) {
-        Column(
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.weight(0.1f)
+        Box(
+            modifier = Modifier.weight(1f)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight(0.8f)
-            ) {
-                ArtImageView(
-                    imageId,
-                    modifier = Modifier.fillMaxHeight(0.9f)
-                )
-            }
-            ArtInformation(
-                imageId,
-//                modifier = Modifier.fillMaxWidth()
-            )
+            ArtImageView(imageId)
         }
+        Spacer(modifier = Modifier.height(24.dp))
+        ArtInformation(imageId)
         Spacer(modifier = Modifier.height(24.dp))
         Operations(
             imageId,
-            onImageChange = { imageId = it }
+            onImageChange = { imageId = it },
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -181,7 +170,7 @@ fun Operations(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Button(

@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -69,6 +70,21 @@ fun ArtSpaceLayout() {
     var imageId by remember {
         mutableIntStateOf(1)
     }
+    BoxWithConstraints {
+        val isPortrait = maxWidth < maxHeight
+        if (isPortrait) {
+            VerticalLayout(imageId) { imageId = it }
+        } else {
+            HorizontalLayout(imageId) { imageId = it }
+        }
+    }
+}
+
+@Composable
+fun VerticalLayout(
+    imageId: Int,
+    onImageChange: (Int) -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,21 +93,59 @@ fun ArtSpaceLayout() {
             .padding(24.dp)
             .statusBarsPadding()
             .safeDrawingPadding()
-            .verticalScroll(rememberScrollState())
     ) {
-        Box(
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.weight(1f)
         ) {
-            ArtImageView(imageId)
+            Box(
+                modifier = Modifier.weight(1f)
+            ) {
+                ArtImageView(imageId)
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+            ArtInformation(imageId, modifier = Modifier.fillMaxWidth())
         }
-        Spacer(modifier = Modifier.height(24.dp))
-        ArtInformation(imageId)
         Spacer(modifier = Modifier.height(24.dp))
         Operations(
             imageId,
-            onImageChange = { imageId = it },
+            onImageChange = onImageChange,
             modifier = Modifier.fillMaxWidth()
         )
+    }
+}
+
+@Composable
+fun HorizontalLayout(
+    imageId: Int,
+    onImageChange: (Int) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp)
+            .statusBarsPadding()
+            .safeDrawingPadding()
+    ) {
+        ArtImageView(imageId)
+        Column(
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(24.dp)
+                .statusBarsPadding()
+                .safeDrawingPadding()
+        ) {
+            ArtInformation(imageId, Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.height(24.dp))
+            Operations(
+                imageId,
+                onImageChange = onImageChange,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
@@ -192,7 +246,8 @@ fun Operations(
 
 @Preview(
     showBackground = true,
-    showSystemUi = true
+    showSystemUi = true,
+    device = "spec:shape=Normal,width=800,height=1080,unit=dp,dpi=420"
 )
 @Composable
 fun ArtSpacePreview() {
@@ -203,7 +258,7 @@ fun ArtSpacePreview() {
 @Preview(
     showBackground = true,
     showSystemUi = true,
-    device = "spec:shape=Normal,width=1920,height=1080,unit=dp,dpi=420"
+    device = "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=420"
 )
 @Composable
 fun ArtSpacePreview2() {

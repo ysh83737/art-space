@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,8 +14,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -66,15 +75,33 @@ fun ArtSpaceLayout() {
         modifier = Modifier
             .fillMaxHeight()
             .padding(24.dp)
+            .statusBarsPadding()
+            .safeDrawingPadding()
+            .verticalScroll(rememberScrollState())
     ) {
-        Column {
-            ArtImageView(imageId)
-            Spacer(modifier = Modifier.height(36.dp))
-            ArtInformation(imageId)
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.weight(0.1f)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxHeight(0.8f)
+            ) {
+                ArtImageView(
+                    imageId,
+                    modifier = Modifier.fillMaxHeight(0.9f)
+                )
+            }
+            ArtInformation(
+                imageId,
+//                modifier = Modifier.fillMaxWidth()
+            )
         }
+        Spacer(modifier = Modifier.height(24.dp))
         Operations(
             imageId,
-            onImageChange = { imageId = it}
+            onImageChange = { imageId = it }
         )
     }
 }
@@ -99,12 +126,13 @@ fun ArtImageView(
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),
-        shape = RectangleShape
+        shape = RectangleShape,
+        modifier = modifier
     ) {
         Image(
             painter = painterResource(imageRes),
             contentDescription = null,
-            modifier = modifier.padding(24.dp)
+            modifier = Modifier.padding(24.dp)
         )
     }
 }
@@ -124,7 +152,6 @@ fun ArtInformation(
     })
     Column(
         modifier = modifier
-            .fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.surfaceVariant)
             .padding(12.dp)
     ) {
@@ -180,6 +207,17 @@ fun Operations(
 )
 @Composable
 fun ArtSpacePreview() {
+    ArtSpaceTheme {
+        ArtSpaceLayout()
+    }
+}
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:shape=Normal,width=1920,height=1080,unit=dp,dpi=420"
+)
+@Composable
+fun ArtSpacePreview2() {
     ArtSpaceTheme {
         ArtSpaceLayout()
     }
